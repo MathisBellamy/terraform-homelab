@@ -11,47 +11,53 @@ variable "vm_id" {
   type = string
 }
 
-variable "node_name" {
-  type    = string
-  default = "pve"
+variable "proxmox_node_name" {
+  type = string
 }
+
+variable "unpriviledged" {
+  type = bool
+}
+
+variable "start_on_boot" {
+  type = bool
+}
+
+# Network
+
+variable "network_interfaces" {
+  type = map(object({
+    ipv4_address = string
+    ipv4_gateway = string
+    ipv6_address = string
+    ipv6_gateway = string
+    bridge       = string
+    vlan_id      = string
+    firewall = bool
+  }))
+}
+
 
 # Storage & Disk
 
 variable "storage" {
-    type = map(string)
-    default = {
-        datastore = "local-lvm"
-        disk_size = "2" # in GiB
-    }
+  type = map(string)
 }
 
 # CPU
 
 variable "cpu" {
   type = map(string)
-  default = {
-    architecture = "amd64"
-    cores        = "1"
-  }
 }
 
 # RAM
 
 variable "ram" {
   type = map(string)
-  default = {
-    size = "512" # in Mb
-    swap = "0"   # in Mb
-  }
 }
 
 # OS
 
 variable "os" {
-    type = map(string)
-    default = {
-        type = "debian"
-        template_file = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
-    }
+  type = map(string)
 }
